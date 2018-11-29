@@ -26,8 +26,9 @@ public class LoginFilter implements Filter {
         boolean loggedIn = session != null && session.getAttribute("loggedUser") != null;
         boolean loginRequest = request.getRequestURI().equals(loginURI);
         boolean registerRequest = request.getRequestURI().equals(registerURI);
+        boolean isStaticResource = request.getRequestURI().startsWith("/css/");
 
-        if (loggedIn || loginRequest || registerRequest) {
+        if (loggedIn || loginRequest || registerRequest || isStaticResource) {
             filterChain.doFilter(request, response);
         } else {
             response.sendRedirect(loginURI);

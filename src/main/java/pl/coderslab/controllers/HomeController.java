@@ -31,7 +31,6 @@ import java.util.Collections;
 import java.util.List;
 
 @Controller
-//@SessionAttributes({"loggedUser"})
 public class HomeController {
     @Autowired
     UserService userService;

@@ -128,7 +128,7 @@ public class HeadphoneController {
         }
         User sessionUser = (User) session.getAttribute("loggedUser");
         User loggedUser = (User) userService.findUserById(sessionUser.getId());
-      //  newHeadphone.setUrl(PicSearch.getPictureUrl(newHeadphone.getFullName()));
+        newHeadphone.setUrl(PicSearch.findUrl(newHeadphone.getFullName()));
         headphoneService.addHeadphone(newHeadphone);
 
         HeadphoneOwnership newOwnership = new HeadphoneOwnership();
