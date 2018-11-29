@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
-@SessionAttributes({"loggedUser"})
 public class UserController {
     @Autowired
     UserService userService;
@@ -36,40 +35,36 @@ public class UserController {
 
     @RequestMapping("/account")
     public String account(HttpSession session, Model model) {
-        if (session.getAttribute("loggedUser") != null) {
-            User sessionUser = (User) session.getAttribute("loggedUser");
-            User loggedUser = (User) userService.findUserById(sessionUser.getId());
-            List<Tweet> userTweets = tweetService.findAllByUserId(loggedUser.getId());
-            Collections.sort(userTweets,new TweetComparator());
-            List<User> observedUsers = loggedUser.getObservedUsers();
-            List<User> allUsers = userService.findAllByUsername("");
-            List<User> observers = new ArrayList<>();
-            for(User u: allUsers){
-                List<User> temp = u.getObservedUsers();
-                for(User u1: temp){
-                    if(u1.getId()==loggedUser.getId()){
-                        observers.add(u);
-                        break;
-                    }
+        User sessionUser = (User) session.getAttribute("loggedUser");
+        User loggedUser = (User) userService.findUserById(sessionUser.getId());
+        List<Tweet> userTweets = tweetService.findAllByUserId(loggedUser.getId());
+        Collections.sort(userTweets, new TweetComparator());
+        List<User> observedUsers = loggedUser.getObservedUsers();
+        List<User> allUsers = userService.findAllByUsername("");
+        List<User> observers = new ArrayList<>();
+        for (User u : allUsers) {
+            List<User> temp = u.getObservedUsers();
+            for (User u1 : temp) {
+                if (u1.getId() == loggedUser.getId()) {
+                    observers.add(u);
+                    break;
                 }
             }
-            model.addAttribute("user", loggedUser);
-            model.addAttribute("observedUsers", observedUsers);
-            model.addAttribute("observers", observers);
-            model.addAttribute("tweets",userTweets);
-            return "userViews/accountInfo";
         }
-        return "redirect:/login";
+        model.addAttribute("user", loggedUser);
+        model.addAttribute("observedUsers", observedUsers);
+        model.addAttribute("observers", observers);
+        model.addAttribute("tweets", userTweets);
+        return "userViews/accountInfo";
+
     }
 
     @GetMapping("/editAccount")
     public String updateAccount(HttpSession session, Model model) {
-        if (session.getAttribute("loggedUser") != null) {
             User currentUser = (User) session.getAttribute("loggedUser");
             model.addAttribute("user", currentUser);
             return "userViews/updateAccount";
-        }
-        return "redirect:/login";
+
     }
 
     @PostMapping("/editAccount")
@@ -93,7 +88,7 @@ public class UserController {
         List<HeadphoneOwnership> own = headPhoneOwnershipService.findAllByUserIdAndOwnership(showedUser.getId(), true);
         List<HeadphoneOwnership> loaned = headPhoneOwnershipService.findAllByUserIdAndOwnership(showedUser.getId(), false);
         List<Tweet> userTweets = tweetService.findAllByUserId(userId);
-        Collections.sort(userTweets,new TweetComparator());
+        Collections.sort(userTweets, new TweetComparator());
         User sessionUser = (User) session.getAttribute("loggedUser");
         User loggedUser = (User) userService.findUserById(sessionUser.getId());
         List<User> observedUsers = loggedUser.getObservedUsers();
@@ -103,16 +98,16 @@ public class UserController {
                 followed = true;
             }
         }
-        if(loggedUser.getId()==showedUser.getId()){
+        if (loggedUser.getId() == showedUser.getId()) {
             model.addAttribute("selfFollow", true);
         }
         List<User> observed = showedUser.getObservedUsers();
         List<User> allUsers = userService.findAllByUsername("");
         List<User> observers = new ArrayList<>();
-        for(User u: allUsers){
+        for (User u : allUsers) {
             List<User> temp = u.getObservedUsers();
-            for(User u1: temp){
-                if(u1.getId()==userId){
+            for (User u1 : temp) {
+                if (u1.getId() == userId) {
                     observers.add(u);
                     break;
                 }
@@ -169,7 +164,7 @@ public class UserController {
         List<User> allUsers = userService.findAllAlphabetically();
         allUsers = allUsers.stream()
                 .filter(s -> !s.getUsername().equals("admin"))
-                .filter(s -> s.getId()!=loggedUser.getId())
+                .filter(s -> s.getId() != loggedUser.getId())
                 .collect(Collectors.toList());
         model.addAttribute("allUsers", allUsers);
         return "userViews/userCommunity";
@@ -182,7 +177,7 @@ public class UserController {
         List<User> allUsers = userService.findAllAlphabetically();
         allUsers = allUsers.stream()
                 .filter(s -> !s.getUsername().equals("admin"))
-                .filter(s -> s.getId()!=loggedUser.getId())
+                .filter(s -> s.getId() != loggedUser.getId())
                 .collect(Collectors.toList());
         List<User> searchResults = new ArrayList<>();
         switch (selector) {
@@ -190,43 +185,43 @@ public class UserController {
                 searchResults = userService.findAllByUsername(keyword);
                 searchResults = searchResults.stream()
                         .filter(s -> !s.getUsername().equals("admin"))
-                        .filter(s -> s.getId()!=loggedUser.getId())
+                        .filter(s -> s.getId() != loggedUser.getId())
                         .collect(Collectors.toList());
-                Collections.sort(searchResults,new UserComparator());
+                Collections.sort(searchResults, new UserComparator());
                 model.addAttribute("searchResults", searchResults);
                 break;
             case "email":
                 searchResults = userService.findUserByEmail(keyword);
                 searchResults = searchResults.stream()
                         .filter(s -> !s.getUsername().equals("admin"))
-                        .filter(s -> s.getId()!=loggedUser.getId())
+                        .filter(s -> s.getId() != loggedUser.getId())
                         .collect(Collectors.toList());
-                Collections.sort(searchResults,new UserComparator());
+                Collections.sort(searchResults, new UserComparator());
                 model.addAttribute("searchResults", searchResults);
                 break;
             case "lastName":
                 searchResults = userService.findAllByLastName(keyword);
                 searchResults = searchResults.stream()
                         .filter(s -> !s.getUsername().equals("admin"))
-                        .filter(s -> s.getId()!=loggedUser.getId())
+                        .filter(s -> s.getId() != loggedUser.getId())
                         .collect(Collectors.toList());
-                Collections.sort(searchResults,new UserComparator());
+                Collections.sort(searchResults, new UserComparator());
                 model.addAttribute("searchResults", searchResults);
                 break;
             case "telephone":
                 searchResults = userService.findUserByTelephone(keyword);
                 searchResults = searchResults.stream()
                         .filter(s -> !s.getUsername().equals("admin"))
-                        .filter(s -> s.getId()!=loggedUser.getId())
+                        .filter(s -> s.getId() != loggedUser.getId())
                         .collect(Collectors.toList());
-                Collections.sort(searchResults,new UserComparator());
+                Collections.sort(searchResults, new UserComparator());
                 model.addAttribute("searchResults", searchResults);
                 break;
             default:
                 model.addAttribute("searchResults", null);
 
         }
-        model.addAttribute("searchInit",true);
+        model.addAttribute("searchInit", true);
         model.addAttribute("allUsers", allUsers);
         return "userViews/userCommunity";
     }

@@ -12,7 +12,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/tweets")
-@SessionAttributes({"loggedUser"})
 public class TweetController {
     @Autowired
     TweetService tweetService;

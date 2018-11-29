@@ -26,12 +26,18 @@
                 <div class="form-group">
                     <form:input class="form-control" placeholder="Enter email" path="email" id="emailId"/>
                     <form:errors path="email"/><br>
+                    <c:if test="${emailExists}">
+                        <div class="error">This email address already exists!</div>
+                    </c:if><br>
                 </div>
 
 
                 <div class="form-group">
                     <form:input path="username" class="form-control" placeholder="Enter username" id="usernameId"/>
                     <form:errors path="username"/><br>
+                    <c:if test="${usernameExists}">
+                        <div class="error">User with this username already exists!</div>
+                    </c:if><br>
                 </div>
 
 
@@ -62,6 +68,9 @@
                 <div class="form-group">
                     <form:input path="telephone" class="form-control" placeholder="Enter telephone" id="telephoneId"/>
                     <form:errors path="telephone"/><br>
+                    <c:if test="${telephoneExists}">
+                        <div class="error">This telephone number already exists!</div>
+                    </c:if><br>
                 </div>
 
 

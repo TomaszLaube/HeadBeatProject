@@ -18,7 +18,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/offers")
-@SessionAttributes({"loggedUser"})
 public class OfferController {
     @Autowired
     OfferService offerService;

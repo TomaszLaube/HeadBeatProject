@@ -20,7 +20,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/headphones")
-@SessionAttributes({"loggedUser"})
 public class HeadphoneController {
     @Autowired
     HeadphoneService headphoneService;

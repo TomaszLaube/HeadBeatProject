@@ -12,7 +12,6 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/comments")
-@SessionAttributes({"loggedUser"})
 public class CommentController {
     @Autowired
     CommentService commentService;

@@ -1,10 +1,12 @@
 package pl.coderslab.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.WebUtils;
 import pl.coderslab.addins.MailSender;
 import pl.coderslab.comparators.HeadphoneComparator;
 import pl.coderslab.comparators.TweetComparator;
@@ -20,13 +22,16 @@ import pl.coderslab.util.BCrypt;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 
 @Controller
-@SessionAttributes({"loggedUser"})
+//@SessionAttributes({"loggedUser"})
 public class HomeController {
     @Autowired
     UserService userService;
@@ -38,37 +43,10 @@ public class HomeController {
     HeadphoneService headphoneService;
 
     @RequestMapping("/")
-    public String init() {
-        return "redirect:/welcomePage";
+    public String init(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+        return "redirect:/login/log";
     }
 
-    @RequestMapping("/welcomePage")
-    public String homePage(HttpSession session) {
-        if (session.getAttribute("loggedUser") != null) {
-            return "redirect:/home";
-        }
-        return "redirect:/login";
-    }
-
-    @RequestMapping("/login")
-    public String loginUser() {
-        return "homeViews/login";
-    }
-
-    @PostMapping("/login")
-    public String loggedUser(@RequestParam String username, @RequestParam String password, Model model) {
-        User temp = (User) userService.findByUsername(username);
-        if (temp != null && BCrypt.checkpw(password, temp.getPassword())) {
-            model.addAttribute("loggedUser", temp);
-            if (temp.getUsername().equals("admin")) {
-                return "redirect:/admin";
-            }
-            return "redirect:/home";
-        } else {
-            model.addAttribute("notLogged", true);
-            return "homeViews/login";
-        }
-    }
 
     @GetMapping("/register")
     public String registerUser(Model model) {
@@ -77,20 +55,36 @@ public class HomeController {
     }
 
     @PostMapping("/register")
-    public String registeredUser(@ModelAttribute @Valid User user, BindingResult result) {
+    public String registeredUser(@ModelAttribute @Valid User user, BindingResult result, Model model) {
+        User username = (User) userService.findByUsername(user.getUsername());
+        List<User> email = userService.findUserByEmail(user.getEmail());
+        List<User> telephone = userService.findUserByTelephone(user.getTelephone());
         if (result.hasErrors()) {
             return "homeViews/registerForm";
         }
-        userService.addUser(user);
-        try {
-            MailSender.sendWelcome(user.getUsername());
-        }catch (AddressException e){
-            e.printStackTrace();
-        }catch(MessagingException e){
-            e.printStackTrace();
+        else if (username != null || (email != null && email.size()>0) || (telephone != null && telephone.size()>0)) {
+            if (username != null) {
+                model.addAttribute("usernameExists", true);
+            }
+            if (email != null) {
+                model.addAttribute("emailExists", true);
+            }
+            if (telephone != null) {
+                model.addAttribute("telephoneExists", true);
+            }
+            return "homeViews/registerForm";
         }
-        return "redirect:/login";
-
+        else {
+            userService.addUser(user);
+            try {
+                MailSender.sendWelcome(user.getUsername());
+            } catch (AddressException e) {
+                e.printStackTrace();
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+            return "redirect:/login";
+        }
     }
 
     @RequestMapping("/home")
@@ -114,10 +108,13 @@ public class HomeController {
     }
 
     @RequestMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
         session.removeAttribute("loggedUser");
         session.invalidate();
-        return "redirect:/login";
+        Cookie c = WebUtils.getCookie(request, "JSESSIONID");
+        c.setMaxAge(0);
+        response.addCookie(c);
+        return "redirect:/";
     }
 
     @RequestMapping("/admin")
@@ -129,21 +126,23 @@ public class HomeController {
             List<Headphone> remainingHeadphones = headphoneService.findByUrlLike("http");
             Collections.sort(remainingHeadphones, new HeadphoneComparator());
             model.addAttribute("newHeadphones", newHeadphones);
-            model.addAttribute("remainingHeadphones",remainingHeadphones);
+            model.addAttribute("remainingHeadphones", remainingHeadphones);
 
             return "homeViews/admin";
         }
         return "redirect:/home";
 
     }
+
     @GetMapping("/editData/{headphoneId}")
-    public String addPicture(@PathVariable Long headphoneId, Model model){
+    public String addPicture(@PathVariable Long headphoneId, Model model) {
         model.addAttribute("headphone", headphoneService.findById(headphoneId));
         return "homeViews/editData";
     }
+
     @PostMapping("/editData/{headphoneId}")
-    public String addedPicture(@ModelAttribute @Valid Headphone headphone, BindingResult result){
-        if(result.hasErrors()){
+    public String addedPicture(@ModelAttribute @Valid Headphone headphone, BindingResult result) {
+        if (result.hasErrors()) {
             return "homeViews/editData";
         }
         headphoneService.addHeadphone(headphone);
