@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.addins.PicSearch;
 import pl.coderslab.comparators.HeadphoneComparator;
 import pl.coderslab.comparators.RankingComparator;
 import pl.coderslab.models.*;
@@ -128,6 +129,7 @@ public class HeadphoneController {
         }
         User sessionUser = (User) session.getAttribute("loggedUser");
         User loggedUser = (User) userService.findUserById(sessionUser.getId());
+      //  newHeadphone.setUrl(PicSearch.getPictureUrl(newHeadphone.getFullName()));
         headphoneService.addHeadphone(newHeadphone);
 
         HeadphoneOwnership newOwnership = new HeadphoneOwnership();

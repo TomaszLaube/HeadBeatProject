@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.addins.MailSender;
 import pl.coderslab.comparators.HeadphoneComparator;
 import pl.coderslab.comparators.TweetComparator;
 import pl.coderslab.models.Headphone;
@@ -17,11 +18,12 @@ import pl.coderslab.services.TweetService;
 import pl.coderslab.services.UserService;
 import pl.coderslab.util.BCrypt;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @SessionAttributes({"loggedUser"})
@@ -80,6 +82,13 @@ public class HomeController {
             return "homeViews/registerForm";
         }
         userService.addUser(user);
+        try {
+            MailSender.sendWelcome(user.getUsername());
+        }catch (AddressException e){
+            e.printStackTrace();
+        }catch(MessagingException e){
+            e.printStackTrace();
+        }
         return "redirect:/login";
 
     }

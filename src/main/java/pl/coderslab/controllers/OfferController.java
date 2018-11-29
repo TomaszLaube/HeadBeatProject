@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.comparators.OfferComparator;
-import pl.coderslab.mailing.MailSender;
+import pl.coderslab.addins.MailSender;
 import pl.coderslab.models.*;
 import pl.coderslab.services.*;
 
@@ -142,7 +142,7 @@ public class OfferController {
         newOffer.setStatus((Status) statusService.findById(1L));
         offerService.add(newOffer);
         try{
-            MailSender.generateAndSendEmail(loggedUser.getUsername(), newOffer.getOffered().getFullName(), newOffer.getRequested().getFullName(), "http://localhost:8080/offers/offerDetailsInbox/" + newOffer.getId());
+            MailSender.sendOffer(loggedUser.getUsername(), newOffer.getOffered().getFullName(), newOffer.getRequested().getFullName(), "http://localhost:8080/offers/offerDetailsInbox/" + newOffer.getId());
         } catch (AddressException e){
             e.printStackTrace();
         } catch (MessagingException e){

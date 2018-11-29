@@ -20,11 +20,11 @@ public class User {
     @NotBlank
     @Email
     @Column(unique = true)
-    @UniqueEmail(message = "User with this email already exists")
+    //@UniqueEmail(message = "User with this email already exists")
     private String email;
     @NotBlank
     @Column(unique = true)
-    @UniqueUser(message = "User with this login already exists")
+   // @UniqueUser(message = "User with this login already exists")
     private String username;
     @NotBlank
     private String password;
@@ -37,7 +37,7 @@ public class User {
     @NotBlank
     @Pattern(regexp = "^[0-9]{9}$", message = "Telephone number should consist of exactly 9 digits")
     @Column(unique = true)
-    @UniqueTelephone(message = "User with this number already exists")
+    //@UniqueTelephone(message = "User with this number already exists")
     private String telephone;
 
 
