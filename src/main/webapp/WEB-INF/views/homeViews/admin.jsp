@@ -17,28 +17,84 @@
 <body>
 
 
-<h3>New headphones in Database:</h3>
-<div>
-    <c:forEach var="headphone" items="${newHeadphones}">
-        <div>
-            <div>
-                <img src="${headphone.url}" width="100px" height="100px">
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded">
+                <a class="navbar-brand" href="/home">
+                    <img class="header"
+                         src="https://i.pinimg.com/originals/86/c2/40/86c240e476f56331022765b6b7025e1c.png"
+                         width="30px" height="35px">
+                </a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/user/account">Account<span class="sr-only">(current)</span></a>
+                        </li>
+
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/user/community">Community<span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/headphones/collection">Headphones<span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+
+                        <li class="nav-item active">
+                            <a href="/offers/offerBox" class="nav-link">Offers<span class="sr-only">(current)</span></a><br>
+                        </li>
+
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/headphones/ranking">Ranking<span class="sr-only">(current)</span></a>
+                        </li>
+
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/logout">Logout<span class="sr-only">(current)</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+
+            <div class="row">
+                <div class="col-sm">
+                    <h3>New headphones in database:</h3>
+                    <c:forEach var="headphone" items="${newHeadphones}">
+                        <div class="media rounded border">
+                            <img src="${headphone.url}" width="100px" height="100px">
+                            <div class="media-body">
+                                <h5 class="mt-0">
+                                    <a href="/headphones/headphone/${headphone.id}">${headphone.fullName}</a></h5>
+                                    <button class="btn btn-primary" onclick="window.location.href='/editData/${headphone.id}'">Edit data</button>
+
+                            </div>
+                        </div>
+                    </c:forEach>
+
+                </div>
+                <div class="col-sm">
+                    <h3>Remaining headphones:</h3>
+                    <c:forEach var="headphone" items="${remainingHeadphones}" varStatus="loop">
+                        <div class="media rounded border">
+                            <img src="${headphone.url}" width="100px" height="100px">
+                            <div class="media-body">
+                                <h5 class="mt-0">
+                                    <a href="/headphones/headphone/${headphone.id}">${headphone.fullName}</a></h5>
+                                    <button class="btn btn-primary" onclick="window.location.href='/editData/${headphone.id}'">Edit data</button>
+
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
             </div>
-                ${headphone.fullName} <a href="/editData/${headphone.id}">Edit Data</a>
+
         </div>
-    </c:forEach>
+    </div>
 </div>
 
-<h3>Remaining headphones in Database:</h3>
-<div>
-    <c:forEach var="headphone" items="${remainingHeadphones}">
-        <div>
-            <div>
-                <img src="${headphone.url}" width="100px" height="100px">
-            </div>
-                ${headphone.fullName} <a href="/editData/${headphone.id}">Edit Data</a>
-        </div>
-    </c:forEach>
-</div>
+
+
 <%@include file="../footer.jsp" %>
 

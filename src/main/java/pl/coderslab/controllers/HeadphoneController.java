@@ -163,6 +163,7 @@ public class HeadphoneController {
         }
         Collections.sort(rankings, new RankingComparator());
         model.addAttribute("rankings", rankings);
+        Collections.sort(unranked, new HeadphoneComparator());
         model.addAttribute("unrankedHeadphones", unranked);
         return "headphoneViews/ranking";
     }

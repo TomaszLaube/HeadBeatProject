@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.comparators.OwnershipComparator;
 import pl.coderslab.comparators.TweetComparator;
+import pl.coderslab.comparators.UserComparator;
 import pl.coderslab.models.HeadphoneOwnership;
 import pl.coderslab.models.Tweet;
 import pl.coderslab.models.User;
@@ -191,6 +192,7 @@ public class UserController {
                         .filter(s -> !s.getUsername().equals("admin"))
                         .filter(s -> s.getId()!=loggedUser.getId())
                         .collect(Collectors.toList());
+                Collections.sort(searchResults,new UserComparator());
                 model.addAttribute("searchResults", searchResults);
                 break;
             case "email":
@@ -199,6 +201,7 @@ public class UserController {
                         .filter(s -> !s.getUsername().equals("admin"))
                         .filter(s -> s.getId()!=loggedUser.getId())
                         .collect(Collectors.toList());
+                Collections.sort(searchResults,new UserComparator());
                 model.addAttribute("searchResults", searchResults);
                 break;
             case "lastName":
@@ -207,6 +210,7 @@ public class UserController {
                         .filter(s -> !s.getUsername().equals("admin"))
                         .filter(s -> s.getId()!=loggedUser.getId())
                         .collect(Collectors.toList());
+                Collections.sort(searchResults,new UserComparator());
                 model.addAttribute("searchResults", searchResults);
                 break;
             case "telephone":
@@ -215,6 +219,7 @@ public class UserController {
                         .filter(s -> !s.getUsername().equals("admin"))
                         .filter(s -> s.getId()!=loggedUser.getId())
                         .collect(Collectors.toList());
+                Collections.sort(searchResults,new UserComparator());
                 model.addAttribute("searchResults", searchResults);
                 break;
             default:

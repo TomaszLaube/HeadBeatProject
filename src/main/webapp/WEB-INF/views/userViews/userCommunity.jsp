@@ -66,33 +66,37 @@
 
             </form>
 
+            <c:if test="${searchInit}">
+                <c:if test="${empty searchResults}">
+                    <h3>No search results found. Try again...</h3>
+                </c:if>
+                <c:if test="${not empty searchResults}">
+                    <h3>Search Results:</h3>
+                    <c:forEach var="user" items="${searchResults}">
+
+                        <div>
+                            <a href="/user/${user.id}">${user.username}<br></a>
+                        </div>
+                    </c:forEach>
+                </c:if>
+
+            </c:if>
+
+
+            <h3>Whole Community</h3>
+            <c:forEach var="user" items="${allUsers}">
+                <div>
+                    <a href="/user/${user.id}">${user.username}<br></a>
+                </div>
+            </c:forEach>
+
+            <%@include file="../footer.jsp" %>
+
         </div>
     </div>
 </div>
 
 
-<c:if test="${searchInit}">
-    <c:if test="${empty searchResults}">
-        <h3>No search results found. Try again...</h3>
-    </c:if>
-    <c:if test="${not empty searchResults}">
-        <c:forEach var="user" items="${searchResults}">
-            <div>
-                    ${user.username}<br>
-                <a href="/user/${user.id}">See profile</a>
-            </div>
-        </c:forEach>
-    </c:if>
-
-</c:if>
 
 
-<h3>Whole Community</h3>
-<c:forEach var="user" items="${allUsers}">
-    <div>
-            ${user.username}<br>
-        <a href="/user/${user.id}">See profile</a>
-    </div>
-</c:forEach>
 
-<%@include file="../footer.jsp" %>
