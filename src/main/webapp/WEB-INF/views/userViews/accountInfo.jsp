@@ -11,6 +11,9 @@
                 </a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
+                        <li >
+                            <h7 class="nav-link">${loggedUser.username}:</h7>
+                        </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="/user/account">Account<span class="sr-only">(current)</span></a>
                         </li>

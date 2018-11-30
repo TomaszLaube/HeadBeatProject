@@ -13,6 +13,9 @@
                 </a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
+                        <li >
+                            <h7 class="nav-link">${loggedUser.username}:</h7>
+                        </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="/user/account">Account<span class="sr-only">(current)</span></a>
                         </li>
@@ -45,9 +48,9 @@
 
             <h3>Add new headphone model:</h3>
             <form:form method="post" class="card center" modelAttribute="newHeadphone">
-                <form:input path="manufacturer" placeholder="Manufacturer" id="manufacturerId"/>
+                <form:input path="manufacturer" required="required" placeholder="Manufacturer" id="manufacturerId"/>
                 <form:errors path="manufacturer"/><br>
-                <form:input path="model" placeholder="Model" id="modelId"/>
+                <form:input path="model" required="required" placeholder="Model" id="modelId"/>
                 <form:errors path="model"/><br>
                 <input type="submit" class="btn btn-primary" value="Add">
             </form:form>

@@ -12,6 +12,9 @@
                 </a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
+                        <li >
+                            <h7 class="nav-link">${loggedUser.username}:</h7>
+                        </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="/user/account">Account<span class="sr-only">(current)</span></a>
                         </li>
@@ -45,43 +48,43 @@
             <h2 class="header center">Update your account</h2>
             <form:form method="post" class="card center" modelAttribute="user">
                 <div class="form-group">
-                    <form:input class="form-control" placeholder="Enter email" path="email" id="emailId"/>
+                    <form:input class="form-control" required="required" placeholder="Enter email" path="email" id="emailId"/>
                     <form:errors path="email"/><br>
                 </div>
 
 
                 <div class="form-group">
-                    <form:input path="username" class="form-control" placeholder="Enter username" id="usernameId"/>
+                    <form:input path="username" class="form-control" required="required" placeholder="Enter username" id="usernameId"/>
                     <form:errors path="username"/><br>
                 </div>
 
 
                 <div class="form-group">
-                    <form:input path="password" class="form-control" placeholder="Enter password" type="password" id="passwordId"/>
+                    <form:input path="password" class="form-control" required="required" placeholder="Enter password" type="password" id="passwordId"/>
                     <form:errors path="password"/><br>
                 </div>
 
 
                 <div class="form-group">
-                    <form:input path="firstName" class="form-control" placeholder="Enter Firstname" id="firstNameId"/>
+                    <form:input path="firstName" class="form-control" required="required" placeholder="Enter Firstname" id="firstNameId"/>
                     <form:errors path="firstName"/><br>
                 </div>
 
 
                 <div class="form-group">
-                    <form:input path="lastName" class="form-control" placeholder="Enter Lastname" id="lastNameId"/>
+                    <form:input path="lastName" class="form-control" required="required" placeholder="Enter Lastname" id="lastNameId"/>
                     <form:errors path="lastName"/><br>
                 </div>
 
 
                 <div class="form-group">
-                    <form:input path="address" class="form-control" placeholder="Enter address" id="addressId"/>
+                    <form:input path="address" class="form-control" required="required" placeholder="Enter address" id="addressId"/>
                     <form:errors path="address"/><br>
                 </div>
 
 
                 <div class="form-group">
-                    <form:input path="telephone" class="form-control" placeholder="Enter telephone" id="telephoneId"/>
+                    <form:input path="telephone" class="form-control" required="required" placeholder="Enter telephone" id="telephoneId"/>
                     <form:errors path="telephone"/><br>
                 </div>
                 <form:hidden path="id" value="${user.id}"/>

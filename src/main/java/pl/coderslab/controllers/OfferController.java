@@ -173,6 +173,11 @@ public class OfferController {
         Offer offer = (Offer) offerService.findById(offerId);
         offer.setStatus((Status) statusService.findById(2L));
         offerService.update(offer);
+
+
+
+
+
         return "redirect:../offerBox";
     }
     @RequestMapping("/declineOffer/{offerId}")

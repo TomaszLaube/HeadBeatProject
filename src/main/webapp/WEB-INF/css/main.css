@@ -30,5 +30,8 @@ div.notseen {
 .left {
     text-align: left;
 }
+.collapse:not(.show) {
+    display: block!important;
+}
 
 

@@ -12,6 +12,9 @@
                 </a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
+                        <li >
+                            <h7 class="nav-link">${loggedUser.username}:</h7>
+                        </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="/user/account">Account<span class="sr-only">(current)</span></a>
                         </li>
@@ -67,7 +70,7 @@
 
                     </c:forEach><br>
                     <form:form method="post" class="card center" action="/comments/add" modelAttribute="newComment">
-                        <form:textarea rows="5" path="text" placeholder="Your comment" id="textId"/>
+                        <form:textarea rows="5" path="text" required="required" placeholder="Your comment" id="textId"/>
                         <form:errors path="text"/>
                         <form:hidden path="user.id" value="${user.id}"/>
                         <form:hidden path="tweet.id" value="${tweet.id}"/>

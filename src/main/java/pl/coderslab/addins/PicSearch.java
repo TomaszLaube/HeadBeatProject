@@ -104,6 +104,15 @@ public class PicSearch {
 
     }
 }
+class SearchResults{
+    HashMap<String, String> relevantHeaders;
+    String jsonResponse;
+    SearchResults(HashMap<String, String> headers, String json) {
+        relevantHeaders = headers;
+        jsonResponse = json;
+    }
+}
+
 
     /*public static void main (String[] args) {
         if (subscriptionKey.length() != 32) {
@@ -146,14 +155,7 @@ public class PicSearch {
 
 
 // Container class for search results encapsulates relevant headers and JSON data
-class SearchResults{
-    HashMap<String, String> relevantHeaders;
-    String jsonResponse;
-    SearchResults(HashMap<String, String> headers, String json) {
-        relevantHeaders = headers;
-        jsonResponse = json;
-    }
-    }
+
 
 
 

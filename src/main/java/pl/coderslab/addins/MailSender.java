@@ -78,4 +78,6 @@ public class MailSender {
         transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
         transport.close();
     }
+
+
 }
