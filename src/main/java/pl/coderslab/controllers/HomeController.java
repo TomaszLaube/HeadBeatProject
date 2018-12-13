@@ -65,10 +65,10 @@ public class HomeController {
             if (username != null) {
                 model.addAttribute("usernameExists", true);
             }
-            if (email != null) {
+            if (email != null && email.size()>0) {
                 model.addAttribute("emailExists", true);
             }
-            if (telephone != null) {
+            if (telephone != null && telephone.size()>0) {
                 model.addAttribute("telephoneExists", true);
             }
             return "homeViews/registerForm";

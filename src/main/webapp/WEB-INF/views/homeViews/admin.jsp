@@ -59,21 +59,21 @@
                     </ul>
                 </div>
             </nav>
-
-            <h3>Headphones in DB:</h3>
-            <c:forEach var="headphone" items="${remainingHeadphones}" varStatus="loop">
-                <div class="media rounded border">
-                    <img src="${headphone.url}" width="100px" height="100px">
-                    <div class="media-body">
-                        <h5 class="mt-0">
-                            <a href="/headphones/headphone/${headphone.id}">${headphone.fullName}</a></h5>
-                        <button class="btn btn-primary" onclick="window.location.href='/editData/${headphone.id}'">Edit data</button>
-
-                    </div>
-                </div>
-            </c:forEach>
-
             <%--
+                       <h3>Headphones in DB:</h3>
+                       <c:forEach var="headphone" items="${remainingHeadphones}" varStatus="loop">
+                           <div class="media rounded border">
+                               <img src="${headphone.url}" width="100px" height="100px">
+                               <div class="media-body">
+                                   <h5 class="mt-0">
+                                       <a href="/headphones/headphone/${headphone.id}">${headphone.fullName}</a></h5>
+                                   <button class="btn btn-primary" onclick="window.location.href='/editData/${headphone.id}'">Edit data</button>
+
+                               </div>
+                           </div>
+                       </c:forEach>
+                       --%>
+
             <div class="row">
                 <div class="col-sm">
                     <h3>New headphones in database:</h3>
@@ -105,7 +105,7 @@
                     </c:forEach>
                 </div>
             </div>
-            --%>
+
         </div>
     </div>
 </div>
