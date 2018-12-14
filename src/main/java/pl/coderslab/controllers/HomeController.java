@@ -29,6 +29,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -58,10 +59,11 @@ public class HomeController {
         User username = (User) userService.findByUsername(user.getUsername());
         List<User> email = userService.findUserByEmail(user.getEmail());
         List<User> telephone = userService.findUserByTelephone(user.getTelephone());
+
         if (result.hasErrors()) {
             return "homeViews/registerForm";
         }
-        else if (username != null || (email != null && email.size()>0) || (telephone != null && telephone.size()>0)) {
+        else if (username != null || (email != null && email.size()>0) || (telephone != null && telephone.size()>0) || (!user.getPassword().equals(user.getCheckPassword()))) {
             if (username != null) {
                 model.addAttribute("usernameExists", true);
             }
@@ -71,6 +73,10 @@ public class HomeController {
             if (telephone != null && telephone.size()>0) {
                 model.addAttribute("telephoneExists", true);
             }
+            if(!user.getPassword().equals(user.getCheckPassword())){
+                model.addAttribute("wrongPassword",true);
+            }
+            model.addAttribute("user", user);
             return "homeViews/registerForm";
         }
         else {

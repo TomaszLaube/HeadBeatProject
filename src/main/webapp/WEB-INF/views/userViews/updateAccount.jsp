@@ -48,46 +48,56 @@
             <h2 class="header center">Update your account</h2>
             <form:form method="post" class="card center" modelAttribute="user">
                 <div class="form-group">
+                    <label for="emailId">Email address:</label>
                     <form:input class="form-control" required="required" placeholder="Enter email" path="email" id="emailId"/>
                     <form:errors path="email"/><br>
+                    <c:if test="${emailExists}">
+                        <div class="error">This email address already exists!</div>
+                    </c:if><br>
                 </div>
 
 
                 <div class="form-group">
+                    <label for="usernameId">Username:</label>
                     <form:input path="username" class="form-control" required="required" placeholder="Enter username" id="usernameId"/>
                     <form:errors path="username"/><br>
+                    <c:if test="${usernameExists}">
+                        <div class="error">This username already exists!</div>
+                    </c:if><br>
                 </div>
 
 
                 <div class="form-group">
-                    <form:input path="password" class="form-control" required="required" placeholder="Enter password" type="password" id="passwordId"/>
-                    <form:errors path="password"/><br>
-                </div>
-
-
-                <div class="form-group">
+                    <label for="firstNameId">First Name:</label>
                     <form:input path="firstName" class="form-control" required="required" placeholder="Enter Firstname" id="firstNameId"/>
                     <form:errors path="firstName"/><br>
                 </div>
 
 
                 <div class="form-group">
+                    <label for="lastNameId">Last Name:</label>
                     <form:input path="lastName" class="form-control" required="required" placeholder="Enter Lastname" id="lastNameId"/>
                     <form:errors path="lastName"/><br>
                 </div>
 
 
                 <div class="form-group">
+                    <label for="addressId">Personal address:</label>
                     <form:input path="address" class="form-control" required="required" placeholder="Enter address" id="addressId"/>
                     <form:errors path="address"/><br>
                 </div>
 
 
                 <div class="form-group">
+                    <label for="telephoneId">Telephone number:</label>
                     <form:input path="telephone" class="form-control" required="required" placeholder="Enter telephone" id="telephoneId"/>
                     <form:errors path="telephone"/><br>
+                    <c:if test="${telephoneExists}">
+                        <div class="error">This telephone number already exists!</div>
+                    </c:if><br>
                 </div>
                 <form:hidden path="id" value="${user.id}"/>
+                <form:hidden path="password" value="${user.password}"/>
 
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary" value="Update account">

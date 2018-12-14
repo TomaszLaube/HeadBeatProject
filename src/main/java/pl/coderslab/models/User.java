@@ -40,6 +40,9 @@ public class User {
     //@UniqueTelephone(message = "User with this number already exists")
     private String telephone;
 
+    @Transient
+    private String checkPassword;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     List<User> observedUsers = new ArrayList<>();
@@ -109,6 +112,13 @@ public class User {
         this.telephone = telephone;
     }
 
+    public String getCheckPassword() {
+        return checkPassword;
+    }
+
+    public void setCheckPassword(String checkPassword) {
+        this.checkPassword = checkPassword;
+    }
 
     public List<User> getObservedUsers() {
         return observedUsers;

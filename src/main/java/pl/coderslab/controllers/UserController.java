@@ -14,6 +14,7 @@ import pl.coderslab.models.User;
 import pl.coderslab.services.HeadPhoneOwnershipService;
 import pl.coderslab.services.TweetService;
 import pl.coderslab.services.UserService;
+import pl.coderslab.util.BCrypt;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -32,6 +33,7 @@ public class UserController {
     HeadPhoneOwnershipService headPhoneOwnershipService;
     @Autowired
     TweetService tweetService;
+
 
     @RequestMapping("/account")
     public String account(HttpSession session, Model model) {
@@ -62,24 +64,71 @@ public class UserController {
     @GetMapping("/editAccount")
     public String updateAccount(HttpSession session, Model model) {
             User currentUser = (User) session.getAttribute("loggedUser");
+            currentUser = (User) userService.findUserById(currentUser.getId());
             model.addAttribute("user", currentUser);
             return "userViews/updateAccount";
 
     }
 
     @PostMapping("/editAccount")
-    public String updatedAccount(@ModelAttribute @Valid User user, BindingResult result) {
+    public String updatedAccount(@ModelAttribute @Valid User user, BindingResult result, Model model) {
+        User username = (User) userService.findByUsername(user.getUsername());
+        List<User> email = userService.findUserByEmail(user.getEmail());
+        List<User> telephone = userService.findUserByTelephone(user.getTelephone());
+        email =  email.stream()
+                .filter(s -> s.getId()!=user.getId())
+                .collect(Collectors.toList());
+        telephone = telephone.stream()
+                .filter(s -> s.getId()!=user.getId())
+                .collect(Collectors.toList());
+
+        if(username.getId() == user.getId()){
+            username = null;
+        }
+
         if (result.hasErrors()) {
+            model.addAttribute("user",user);
             return "userViews/updateAccount";
         }
-        User loggedUser = (User) userService.findUserById(user.getId());
-        if (user.getPassword().equals(loggedUser.getPassword())) {
-            userService.editUser(user);
-        } else {
-            userService.addUser(user);
+        else if (username != null || (email != null && email.size()>0) || (telephone != null && telephone.size()>0)) {
+            if (username != null) {
+                model.addAttribute("usernameExists", true);
+            }
+            if (email != null && email.size()>0) {
+                model.addAttribute("emailExists", true);
+            }
+            if (telephone != null && telephone.size()>0) {
+                model.addAttribute("telephoneExists", true);
+            }
+            model.addAttribute("user", user);
+            return "userViews/updateAccount";
         }
-        return "redirect:/user/account";
+        else{
+            userService.editUser(user);
+            return "redirect:/user/account";
+        }
+    }
 
+    @GetMapping("/changePassword")
+    public String changePassword(){
+        return "userViews/changePassword";
+    }
+
+    @PostMapping("/changePassword")
+    public String changedPassword(HttpSession session, Model model, @RequestParam String oldPassword, @RequestParam String newPassword, @RequestParam String newPasswordCheck){
+        User currentUser = (User) session.getAttribute("loggedUser");
+        currentUser = (User) userService.findUserById(currentUser.getId());
+        if(!BCrypt.checkpw(oldPassword,currentUser.getPassword())){
+            model.addAttribute("incorrectOldPassword",true);
+            return "userViews/changePassword";
+        } else if(!newPassword.equals(newPasswordCheck)){
+            model.addAttribute("incorrectNewPassword", true);
+            return "userViews/changePassword";
+        } else{
+            currentUser.setPassword(newPassword);
+            userService.addUser(currentUser);
+            return "redirect:/user/account";
+        }
     }
 
     @GetMapping("/{userId}")

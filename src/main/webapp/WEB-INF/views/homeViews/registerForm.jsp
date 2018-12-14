@@ -46,6 +46,13 @@
                     <form:errors path="password"/><br>
                 </div>
 
+                <div class="form-group">
+                    <form:input path="checkPassword" class="form-control" placeholder="Repeat password" type="password" id="checkPasswordId"/>
+                    <form:errors path="checkPassword"/><br>
+                    <c:if test="${wrongPassword}">
+                        <div class="error">Please type the same password twice</div>
+                    </c:if>
+                </div>
 
                 <div class="form-group">
                     <form:input path="firstName" class="form-control" placeholder="Enter Firstname" id="firstNameId"/>

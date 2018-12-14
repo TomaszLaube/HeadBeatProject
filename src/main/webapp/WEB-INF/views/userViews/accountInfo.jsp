@@ -53,6 +53,7 @@
                 Telephone: ${user.telephone}<br>
             </div><br>
             <button onclick="window.location.href='/user/editAccount'" class="btn btn-primary">Edit data</button>
+            <button onclick="window.location.href='/user/changePassword'" class="btn btn-primary">Change Password</button>
             <br><br>
 
             <div class="container">
