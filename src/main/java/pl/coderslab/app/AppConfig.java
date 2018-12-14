@@ -48,19 +48,6 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         JpaTransactionManager tm = new JpaTransactionManager(emf);
         return tm;
     }
-    /*@Override
-    public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(getAuthorConverter());
-        registry.addConverter(getCategoryConverter());
-    }
-    @Bean
-    public AuthorConverter getAuthorConverter() {
-        return new AuthorConverter();
-    }
-    @Bean
-    public CategoryConverter getCategoryConverter() {
-        return new CategoryConverter();
-    }*/
 
     @Bean(name="localeResolver")
     public LocaleContextResolver getLocaleContextResolver() {
